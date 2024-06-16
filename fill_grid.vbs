@@ -17,9 +17,10 @@ End If
 
 intRow = 0
 qtyRows = session.findById("wnd[0]/usr/cntlEXTEND/shellcont/shell").rowCount
+MsgBox "Rows amount: " & qtyRows
 ' Цикл для каждой строки
 'On Error Resume Next
-Do Until intRow <= qtyRows
+Do Until intRow > qtyRows
     'Err.Clear
     Set grid = session.findById("wnd[0]/usr/cntlEXTEND/shellcont/shell")
 	MsgBox "Row: " & intRow
