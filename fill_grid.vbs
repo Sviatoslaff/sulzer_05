@@ -26,7 +26,7 @@ Do Until intRow > qtyRows
 	MsgBox "Row: " & intRow
 	grid.modifyCell intRow, "TEMPLATE", "BUY-2001"
  	grid.currentCellRow = intRow 
-	sapRow = grid.currentRow               
+'	sapRow = grid.currentRow               
 	grid.triggerModified
     intRow = intRow + 1
 Loop
