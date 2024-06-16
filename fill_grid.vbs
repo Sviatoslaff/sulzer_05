@@ -23,7 +23,7 @@ MsgBox "Rows amount: " & qtyRows
 Do Until intRow > qtyRows
     'Err.Clear
     Set grid = session.findById("wnd[0]/usr/cntlEXTEND/shellcont/shell")
-	MsgBox "Row: " & intRow
+'	MsgBox "Row: " & intRow
 	grid.modifyCell intRow, "TEMPLATE", "BUY-2001"
  	grid.currentCellRow = intRow 
 '	sapRow = grid.currentRow               
