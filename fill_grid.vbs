@@ -18,17 +18,10 @@ End If
 Set grid = session.findById("wnd[0]/usr/cntlEXTEND/shellcont/shell")
 
 strTemplate = "BUY-2001"
-qtyRows = grid.rowCount
+qtyRows = grid.rowCount - 1
 MsgBox "Rows amount: " & qtyRows
 visibleRows = grid.VisibleRowCount
 MsgBox "Visible Rows amount: " & qtyRows
-'готовим список для вставки
-'Dim arrTemplate
-'intRow = 0
-'Do Until intRow > visibleRows
-'    arrTemplate = arrTemplate & strTemplate & vbCr & vbLF 
-'Loop
-'Вставляем список для вставки
 
 ' Цикл для каждой строки
 'On Error Resume Next
@@ -41,6 +34,7 @@ Do Until intRow > qtyRows
     intRow = intRow + 1
 Loop
 grid.triggerModified
+
 
 MsgBox "Finished!", vbSystemModal Or vbInformation
 
