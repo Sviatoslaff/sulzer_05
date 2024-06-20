@@ -28,7 +28,7 @@ Function GetUniqSerNumbersArray()
     Dim arrSerno()
 
     ' Считаем, что в 25 строке - начало таблицы для обработки
-    Dim intRow = 25
+    Dim intRow : intRow = 25
     ' Цикл для каждой строки
     On Error Resume Next
     Do Until ArticlesExcel.Cells(intRow, serRow).Value = ""
