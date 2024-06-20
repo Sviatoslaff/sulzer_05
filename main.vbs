@@ -25,6 +25,8 @@ Do Until ArticlesExcel.Cells(intRow, serRow).Value = ""
 	arrSerno(intRow - 24) = ArticlesExcel.Cells(intRow, serRow).Value
 	intRow = intRow + 1
 Loop
+objWorkbook.Close False
+ArticlesExcel.Quit
 
 WScript.Echo Join(arrSerno)
 Dim arrUniqSerno : arrUniqSerno= uniqFE(arrSerno)
