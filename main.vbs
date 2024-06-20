@@ -2,7 +2,9 @@ Option Explicit
 Public Const serRow = 9
 
 Dim qtn, plant, sorg, template
-
+'Запрашиваем файл QTN
+Dim excelFile
+excelFile = selectExcel()
 Dim arrSerno : arrSerno = GetUniqSerNumbersArray()
 WScript.Echo Join(arrSerno)
 
@@ -12,10 +14,6 @@ MsgBox "The script finished!", vbSystemModal Or vbInformation
 
 'returns an unique array of serial numbers from Excel file chosen by user
 Function GetUniqSerNumbersArray()
-    'Запрашиваем файл QTN
-    Dim excelFile
-    excelFile = selectExcel()
-
     'excelFile = "C:\VBScript\articles.xlsx" ' Полный путь к выбранному файлу
     Dim ArticlesExcel, objWorkbook
     Set ArticlesExcel = CreateObject("Excel.Application")
