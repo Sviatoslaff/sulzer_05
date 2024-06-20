@@ -1,3 +1,5 @@
+Dim WshShell, SapGuiAuto, application, session, Wnd0, Menubar, UserArea, Statusbar, UserName 
+
 ' Создаем объект WScript.Shell
 Set WshShell = WScript.CreateObject("WScript.Shell")
 
