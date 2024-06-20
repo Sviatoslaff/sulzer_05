@@ -17,9 +17,9 @@ Dim arrSerno()
 intRow = 25
 ' Цикл для каждой строки
 On Error Resume Next
-Do Until ArticlesExcel.Cells(intRow,10).Value = ""
+Do Until ArticlesExcel.Cells(intRow,9).Value = ""
 	ReDim arrSerno(intRow - 24)
-  WScript.Echo rticlesExcel.Cells(intRow,10).Value
+  WScript.Echo rticlesExcel.Cells(intRow,9).Value
 	arrSerno(intRow - 24) = ArticlesExcel.Cells(intRow,10).Value
 	intRow = intRow + 1
 Loop
