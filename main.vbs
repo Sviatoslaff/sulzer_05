@@ -3,7 +3,7 @@ Public Const serRow = 9
 
 Dim qtn, plant, sorg, template
 
-Dim arrSerno : GetUniqSerNumbersArray()
+Dim arrSerno : arrSerno = GetUniqSerNumbersArray()
 WScript.Echo Join(arrSerno)
 
 
