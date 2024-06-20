@@ -1,7 +1,7 @@
 Option Explicit
 Public Const serRow = 9
 
-Dim qtn, plant, sorg, template
+Dim qtn, plant, sorg, template, serno
 'Запрашиваем файл QTN
 Dim excelFile
 excelFile = selectExcel()
