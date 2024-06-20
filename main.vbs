@@ -17,6 +17,7 @@ Function GetUniqSerNumbersArray()
     excelFile = selectExcel()
 
     'excelFile = "C:\VBScript\articles.xlsx" ' Полный путь к выбранному файлу
+    Dim ArticlesExcel, objWorkbook
     Set ArticlesExcel = CreateObject("Excel.Application")
     Set objWorkbook = ArticlesExcel.Workbooks.Open (excelFile)
     qtn   = ArticlesExcel.Cells(22, 4).Value
@@ -27,7 +28,7 @@ Function GetUniqSerNumbersArray()
     Dim arrSerno()
 
     ' Считаем, что в 25 строке - начало таблицы для обработки
-    intRow = 25
+    Dim intRow = 25
     ' Цикл для каждой строки
     On Error Resume Next
     Do Until ArticlesExcel.Cells(intRow, serRow).Value = ""
