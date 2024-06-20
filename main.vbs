@@ -21,7 +21,7 @@ intRow = 25
 On Error Resume Next
 Do Until ArticlesExcel.Cells(intRow, serRow).Value = ""
 	ReDim arrSerno(intRow - 24)
-  WScript.Echo rticlesExcel.Cells(intRow, serRow).Value
+  WScript.Echo ArticlesExcel.Cells(intRow, serRow).Value
 	arrSerno(intRow - 24) = ArticlesExcel.Cells(intRow, serRow).Value
 	intRow = intRow + 1
 Loop
