@@ -1,3 +1,5 @@
+Public Const serRow = 9
+
 'Запрашиваем файл QTN
 Dim excelFile
 excelFile = selectExcel()
@@ -17,10 +19,10 @@ Dim arrSerno()
 intRow = 25
 ' Цикл для каждой строки
 On Error Resume Next
-Do Until ArticlesExcel.Cells(intRow,9).Value = ""
+Do Until ArticlesExcel.Cells(intRow, serRow).Value = ""
 	ReDim arrSerno(intRow - 24)
-  WScript.Echo rticlesExcel.Cells(intRow,9).Value
-	arrSerno(intRow - 24) = ArticlesExcel.Cells(intRow,10).Value
+  WScript.Echo rticlesExcel.Cells(intRow, serRow).Value
+	arrSerno(intRow - 24) = ArticlesExcel.Cells(intRow, serRow).Value
 	intRow = intRow + 1
 Loop
 
