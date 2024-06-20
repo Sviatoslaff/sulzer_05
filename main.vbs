@@ -1,11 +1,12 @@
+Option Explicit
 Public Const serRow = 9
 
-qtn   = ArticlesExcel.Cells(22, 4).Value
-plant = ArticlesExcel.Cells(21, 4).Value
-sorg  = ArticlesExcel.Cells(3, 4).Value
-template = "BUY-" & sorg
+Dim qtn, plant, sorg, template
 
 Dim arrSerno : GetUniqSerNumbersArray()
+WScript.Echo Join(arrSerno)
+
+
 
 MsgBox "The script finished!", vbSystemModal Or vbInformation
 
@@ -18,7 +19,11 @@ Function GetUniqSerNumbersArray()
     'excelFile = "C:\VBScript\articles.xlsx" ' Полный путь к выбранному файлу
     Set ArticlesExcel = CreateObject("Excel.Application")
     Set objWorkbook = ArticlesExcel.Workbooks.Open (excelFile)
-
+    qtn   = ArticlesExcel.Cells(22, 4).Value
+    plant = ArticlesExcel.Cells(21, 4).Value
+    sorg  = ArticlesExcel.Cells(3, 4).Value
+    template = "BUY-" & sorg
+    
     Dim arrSerno()
 
     ' Считаем, что в 25 строке - начало таблицы для обработки
