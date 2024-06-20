@@ -1,7 +1,7 @@
 Option Explicit
 Public Const serRow = 9
 
-Dim qtn, plant, sorg, template, serno, grid
+Dim qtn, plant, sorg, template, serno
 Dim qtyRows, visibleRows, intRow, grid
 'Запрашиваем файл QTN
 Dim excelFile
