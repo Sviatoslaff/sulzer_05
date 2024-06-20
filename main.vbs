@@ -8,7 +8,7 @@ excelFile = selectExcel()
 Dim arrSerno : arrSerno = GetUniqSerNumbersArray()
 WScript.Echo Join(arrSerno)
 
-'For Each serno In arrSerno
+For Each serno In arrSerno
   
   StartTransaction("ZIB07")
   session.findById("wnd[0]/tbar[0]/okcd").text = "ZIB07"
@@ -16,8 +16,8 @@ WScript.Echo Join(arrSerno)
   session.findById("wnd[0]/usr/ctxtP_EQUNR").text = serno
   session.findById("wnd[0]/usr/ctxtP_WERKS2").text = plant
   session.findById("wnd[0]/tbar[1]/btn[8]").press
-
-'Next
+  Exit For
+Next
 
 MsgBox "The script finished!", vbSystemModal Or vbInformation
 
