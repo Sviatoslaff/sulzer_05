@@ -23,23 +23,23 @@ For Each serno In arrSerno
     If session.findById("wnd[0]/usr/chkJOB",False) Is Nothing Then
       session.findById("wnd[1]/tbar[0]/btn[8]").press
     End If
-  
+    session.findById("wnd[0]/usr/chkJOB").selected = false
+    session.findById("wnd[0]/usr/chkJOB").setFocus  
+
     Set grid = session.findById("wnd[0]/usr/cntlEXTEND/shellcont/shell")
 
     qtyRows = grid.rowCount - 1
     'MsgBox "Rows amount: " & qtyRows
     visibleRows = grid.VisibleRowCount
-    'MsgBox "Visible Rows amount: " & qtyRows
     
     ' Цикл для каждой строки
     'On Error Resume Next
     intRow = 0
     Do Until intRow > qtyRows
         'Err.Clear
-    '	MsgBox "Row: " & intRow
+        'MsgBox "Row: " & intRow
         grid.modifyCell intRow, "TEMPLATE", template
         grid.currentCellRow = intRow 
-    '	sapRow = grid.currentRow
         intRow = intRow + 1
     Loop
     grid.triggerModified  
@@ -67,7 +67,7 @@ Function GetUniqSerNumbersArray()
     qtn   = ArticlesExcel.Cells(22, 4).Value
     plant = ArticlesExcel.Cells(21, 4).Value
     sorg  = ArticlesExcel.Cells(3, 4).Value
-    template = "BUY-" & sorg
+    template = "BUY-" & plant
     
     Dim arrSerno()
 
