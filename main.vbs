@@ -26,7 +26,7 @@ For Each serno In arrSerno
       'session.findById("wnd[1]/tbar[0]/btn[2]").press       'X
       Else
         MsgBox "Unusual situation - coming back to main Window", vbSystemModal Or vbInformation
-        Call PressF3()
+        'Call PressF3()
         bExit = vbTrue
         Exit Do
       End If 
