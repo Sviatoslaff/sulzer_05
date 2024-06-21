@@ -21,7 +21,7 @@ For Each serno In arrSerno
   WScript.Sleep 500     'Delay for SAP processing
   If session.findById("wnd[0]/usr/ctxtP_EQUNR",False) Is Nothing Then
     Do While session.findById("wnd[0]/usr/chkJOB",False) Is Nothing
-      If session.findById("wnd[1]/usr/txtLV_MATNR1") Is Not Nothing
+      If session.findById("wnd[1]/usr/txtLV_MATNR1") Is Not Nothing Then
         session.findById("wnd[1]/tbar[0]/btn[8]").press       'V
       'session.findById("wnd[1]/tbar[0]/btn[2]").press       'X
       Else
