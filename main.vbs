@@ -32,7 +32,7 @@ For Each serno In arrSerno
       End If 
     Loop
 
-    If Not bExit 
+    If Not bExit Then
       session.findById("wnd[0]/usr/chkJOB").selected = false
       session.findById("wnd[0]/usr/chkJOB").setFocus  
 
