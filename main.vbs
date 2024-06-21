@@ -44,7 +44,9 @@ For Each serno In arrSerno
     Loop
     grid.triggerModified  
     session.findById("wnd[0]/tbar[1]/btn[8]").press
+    MsgBox "Next Control - btn[3]", vbSystemModal Or vbInformation
     session.findById("wnd[0]/tbar[0]/btn[3]").press
+    MsgBox "Next Control - wnd[1]/tbar[0]/btn[0]", vbSystemModal Or vbInformation
     session.findById("wnd[1]/tbar[0]/btn[0]").press
 
   Else
