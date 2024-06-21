@@ -2,7 +2,7 @@ Option Explicit
 Public Const serRow = 9
 
 Dim qtn, plant, sorg, template, serno
-Dim qtyRows, visibleRows, intRow, grid
+Dim qtyRows, visibleRows, intRow, grid, bExit
 'Запрашиваем файл QTN
 Dim excelFile
 excelFile = selectExcel()
@@ -14,41 +14,51 @@ session.findById("wnd[0]/tbar[0]/okcd").text = "ZIB07"
 session.findById("wnd[0]").sendVKey 0
 
 For Each serno In arrSerno
-  
-  session.findById("wnd[0]/usr/ctxtP_EQUNR").text = serno
+  bExit = vbFalse
+  session.findById("wnd[0]/usr/ctxtP_EQUNR").text  = serno
   session.findById("wnd[0]/usr/ctxtP_WERKS2").text = plant
   session.findById("wnd[0]/tbar[1]/btn[8]").press
   WScript.Sleep 500     'Delay for SAP processing
   If session.findById("wnd[0]/usr/ctxtP_EQUNR",False) Is Nothing Then
-    If session.findById("wnd[0]/usr/chkJOB",False) Is Nothing Then
-      session.findById("wnd[1]/tbar[0]/btn[8]").press
-    End If
-    session.findById("wnd[0]/usr/chkJOB").selected = false
-    session.findById("wnd[0]/usr/chkJOB").setFocus  
-
-    Set grid = session.findById("wnd[0]/usr/cntlEXTEND/shellcont/shell")
-
-    qtyRows = grid.rowCount - 1
-    'MsgBox "Rows amount: " & qtyRows
-    visibleRows = grid.VisibleRowCount
-    
-    ' Цикл для каждой строки
-    'On Error Resume Next
-    intRow = 0
-    Do Until intRow > qtyRows
-        'Err.Clear
-        'MsgBox "Row: " & intRow
-        grid.modifyCell intRow, "TEMPLATE", template
-        grid.currentCellRow = intRow 
-        intRow = intRow + 1
+    Do While session.findById("wnd[0]/usr/chkJOB",False) Is Nothing
+      If session.findById("wnd[1]/usr/txtLV_MATNR1") Is Not Nothing
+        session.findById("wnd[1]/tbar[0]/btn[8]").press       'V
+      'session.findById("wnd[1]/tbar[0]/btn[2]").press       'X
+      Else
+        MsgBox "Unusual situation - coming back to main Window", vbSystemModal Or vbInformation
+        Call PressF3()
+        bExit = vbTrue
+        Exit Do
+      End If 
     Loop
-    grid.triggerModified  
-    session.findById("wnd[0]/tbar[1]/btn[8]").press
-'    MsgBox "Next Control - btn[3]", vbSystemModal Or vbInformation
-    session.findById("wnd[0]/tbar[0]/btn[3]").press
-'    MsgBox "Next Control - wnd[1]/tbar[0]/btn[0]", vbSystemModal Or vbInformation
-    session.findById("wnd[1]/tbar[0]/btn[0]").press
 
+    If Not bExit 
+      session.findById("wnd[0]/usr/chkJOB").selected = false
+      session.findById("wnd[0]/usr/chkJOB").setFocus  
+
+      Set grid = session.findById("wnd[0]/usr/cntlEXTEND/shellcont/shell")
+
+      qtyRows = grid.rowCount - 1
+      'MsgBox "Rows amount: " & qtyRows
+      visibleRows = grid.VisibleRowCount
+      
+      ' Цикл для каждой строки
+      'On Error Resume Next
+      intRow = 0
+      Do Until intRow > qtyRows
+          'Err.Clear
+          'MsgBox "Row: " & intRow
+          grid.modifyCell intRow, "TEMPLATE", template
+          grid.currentCellRow = intRow 
+          intRow = intRow + 1
+      Loop
+      grid.triggerModified  
+      session.findById("wnd[0]/tbar[1]/btn[8]").press
+  '    MsgBox "Next Control - btn[3]", vbSystemModal Or vbInformation
+      session.findById("wnd[0]/tbar[0]/btn[3]").press
+  '    MsgBox "Next Control - wnd[1]/tbar[0]/btn[0]", vbSystemModal Or vbInformation
+      session.findById("wnd[1]/tbar[0]/btn[0]").press
+    End If  
   Else
     ' Same selection window - doing nothing
   End If
