@@ -2,7 +2,7 @@ Option Explicit
 Public Const serRow = 9
 
 Dim qtn, plant, sorg, template, serno
-Dim qtyRows, visibleRows, intRow, grid, bExit
+Dim qtyRows, visibleRows, intRow, grid, bExit, bAbort
 'Запрашиваем файл QTN
 Dim excelFile
 excelFile = selectExcel()
@@ -13,6 +13,7 @@ Dim arrSerno : arrSerno = GetUniqSerNumbersArray()
 session.findById("wnd[0]/tbar[0]/okcd").text = "ZIB07"
 session.findById("wnd[0]").sendVKey 0
 
+bAbort = vbFalse
 For Each serno In arrSerno
   bExit = vbFalse
   session.findById("wnd[0]/usr/ctxtP_EQUNR").text  = serno
@@ -55,15 +56,28 @@ For Each serno In arrSerno
       grid.triggerModified  
       session.findById("wnd[0]/tbar[1]/btn[8]").press
   '    MsgBox "Next Control - btn[3]", vbSystemModal Or vbInformation
-      session.findById("wnd[0]/tbar[0]/btn[3]").press
-  '    MsgBox "Next Control - wnd[1]/tbar[0]/btn[0]", vbSystemModal Or vbInformation
-      session.findById("wnd[1]/tbar[0]/btn[0]").press
+  
+  ' It can be error that mat number not found - If for that
+      If session.findById("wnd[1]/tbar[0]/btn[0]", False) Is Nothing Then
+      Else
+        session.findById("wnd[1]/tbar[0]/btn[0]").press       
+        MsgBox "The template " & template & "was not found by SAP. Operation aborted.", vbSystemModal Or vbAbort
+        bAbort = vbTrue
+      End If 
+
+      If Not bAbort Then
+        session.findById("wnd[0]/tbar[0]/btn[3]").press
+    '    MsgBox "Next Control - wnd[1]/tbar[0]/btn[0]", vbSystemModal Or vbInformation
+        session.findById("wnd[1]/tbar[0]/btn[0]").press
+      End If  
     End If  
   Else
     ' Same selection window - doing nothing
   End If
 
-  'Exit For
+  If bAbort Then
+    Exit For
+  End If
 Next
 
 MsgBox "The script finished!", vbSystemModal Or vbInformation
