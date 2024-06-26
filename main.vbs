@@ -11,7 +11,7 @@ excelFile = selectExcel()
 Dim arrSerno : arrSerno = GetUniqSerNumbersArray()
 
 ' Make a structure for a report
-Dim qtySerno = UBound(arrSerno)
+Dim qtySerno : qtySerno= UBound(arrSerno)
 Dim arrReport, strReport
 Dim dicReport : Set dicReport  = CreateObject("Scripting.Dictionary")
 
