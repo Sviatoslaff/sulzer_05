@@ -1,5 +1,7 @@
 Option Explicit
-Public Const serRow = 9
+Public Const serRow = 9, resOK = "Успешно добавлен", resExists = "Уже существует" 
+Public Const resNoTemplate = " template not found.  "
+Public Const resNoBOM = " not configured as BOM."
 
 Dim qtn, plant, sorg, template, serno
 Dim qtyRows, visibleRows, intRow, grid, bExit, bAbort
@@ -7,6 +9,12 @@ Dim qtyRows, visibleRows, intRow, grid, bExit, bAbort
 Dim excelFile
 excelFile = selectExcel()
 Dim arrSerno : arrSerno = GetUniqSerNumbersArray()
+
+' Make a structure for a report
+Dim qtySerno = UBound(arrSerno)
+Dim arrReport, strReport
+Dim dicReport : Set dicReport  = CreateObject("Scripting.Dictionary")
+
 'WScript.Echo Join(arrSerno)
 
 'StartTransaction("ZIB07")
@@ -22,10 +30,10 @@ For Each serno In arrSerno
   WScript.Sleep 500     'Delay for SAP processing
   If session.findById("wnd[0]/usr/ctxtP_EQUNR",False) Is Nothing Then
     Do While session.findById("wnd[0]/usr/chkJOB", False) Is Nothing
-      If session.findById("wnd[1]/usr/txtLV_MATNR1", False) Is Nothing Then
-        MsgBox "Unusual situation - unknown window", vbSystemModal Or vbInformation
-        'Call PressF3()
+      If session.findById("wnd[1]/usr/txtLV_MATNR1", False) Is Nothing Then     
+        dicReport.Add serno, resNoBOM
         bExit = vbTrue
+        session.findById("wnd[1]").sendVKey 0
         Exit Do
       Else
         session.findById("wnd[1]/tbar[0]/btn[8]").press       'V
@@ -55,32 +63,37 @@ For Each serno In arrSerno
       Loop
       grid.triggerModified  
       session.findById("wnd[0]/tbar[1]/btn[8]").press
-  '    MsgBox "Next Control - btn[3]", vbSystemModal Or vbInformation
+      '    MsgBox "Next Control - btn[3]", vbSystemModal Or vbInformation
   
-  ' It can be error that mat number not found - If for that
+      ' It can be error that mat number not found - If for that
       If session.findById("wnd[1]/tbar[0]/btn[0]", False) Is Nothing Then
       Else
-        session.findById("wnd[1]/tbar[0]/btn[0]").press       
-        MsgBox "The template " & template & "was not found by SAP. Operation aborted.", vbSystemModal Or vbAbort
         bAbort = vbTrue
+        dicReport.Add serno, template & resNoTemplate
+        session.findById("wnd[1]/tbar[0]/btn[0]").press          
       End If 
 
       If Not bAbort Then
         session.findById("wnd[0]/tbar[0]/btn[3]").press
-    '    MsgBox "Next Control - wnd[1]/tbar[0]/btn[0]", vbSystemModal Or vbInformation
+        '    MsgBox "Next Control - wnd[1]/tbar[0]/btn[0]", vbSystemModal Or vbInformation
         session.findById("wnd[1]/tbar[0]/btn[0]").press
+        dicReport.Add serno, resOK        
       End If  
     End If  
   Else
     ' Same selection window - doing nothing
-  End If
-
-  If bAbort Then
-    Exit For
+    dicReport.Add serno, resExists
   End If
 Next
 
-MsgBox "The script finished!", vbSystemModal Or vbInformation
+arrReport = dicReport.Items
+intRow = 0
+strReport = ""
+For Each serno In arrSerno
+  strReport = strReport & serno & " : " & arrReport(intRow) & vbCrLf
+Next
+
+MsgBox "Script results: " & vbCrLf & strReport, vbSystemModal Or vbInformation
 
 'returns an unique array of serial numbers from Excel file chosen by user
 Function GetUniqSerNumbersArray()
