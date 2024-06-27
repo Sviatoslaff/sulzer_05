@@ -145,8 +145,8 @@ Sub OutputToExcel
   intRow = 0
   For Each serno In arrSerno
     strReport = strReport & serno & " : " & arrReport(intRow) & vbCrLf
-    objWorkbook.cells(intRow,1).value = serno
-    objWorkbook.cells(intRow,2).value = arrReport(intRow) 
+    ReportExcel.cells(intRow + 1,1).value = serno
+    ReportExcel.cells(intRow + 1,2).value = arrReport(intRow) 
     intRow = intRow + 1
   Next
 End Sub
