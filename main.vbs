@@ -1,7 +1,7 @@
 Option Explicit
-Public Const serRow = 9, resOK = "Успешно добавлен", resExists = "Уже существует" 
-Public Const resNoTemplate = " template not found.  "
-Public Const resNoBOM = " not configured as BOM."
+Public Const serRow = 9, resOK = "Added successfully", resExists = "Already exists in SAP" 
+Public Const resNoTemplate = " template not found. Check the template.  "
+Public Const resNoBOM = "Nothing is inside this BOM. First make the BOM."
 
 Dim qtn, plant, sorg, template, serno
 Dim qtyRows, visibleRows, intRow, grid, bExit, bAbort
@@ -86,14 +86,9 @@ For Each serno In arrSerno
   End If
 Next
 
-arrReport = dicReport.Items
-intRow = 0
-strReport = ""
-For Each serno In arrSerno
-  strReport = strReport & serno & " : " & arrReport(intRow) & vbCrLf
-Next
+MsgBox "Script finished! ", vbSystemModal Or vbInformation
 
-MsgBox "Script results: " & vbCrLf & strReport, vbSystemModal Or vbInformation
+'====== Functions ans Subs ========
 
 'returns an unique array of serial numbers from Excel file chosen by user
 Function GetUniqSerNumbersArray()
@@ -138,3 +133,20 @@ Function uniqFE(fex)
   Next
   uniqFE = dicTemp.Keys()
 End Function
+
+Sub OutputToExcel 
+  Dim ReportExcel, objWorkbook
+  Set ReportExcel = CreateObject("Excel.Application")
+  Set objWorkbook = ReportExcel.Workbooks.Add()
+  ReportExcel.Visible = True
+
+  arrReport = dicReport.Items
+  intRow = 0
+  strReport = ""
+  For Each serno In arrSerno
+    strReport = strReport & serno & " : " & arrReport(intRow) & vbCrLf
+    objWorkbook.cells(intRow,1).value = serno
+    objWorkbook.cells(intRow,2).value = arrReport(intRow) 
+    intRow = intRow + 1
+  Next
+End Sub
