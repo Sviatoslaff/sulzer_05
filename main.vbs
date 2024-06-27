@@ -86,6 +86,7 @@ For Each serno In arrSerno
   End If
 Next
 
+OutputToExcel
 MsgBox "Script finished! ", vbSystemModal Or vbInformation
 
 '====== Functions ans Subs ========
@@ -142,7 +143,6 @@ Sub OutputToExcel
 
   arrReport = dicReport.Items
   intRow = 0
-  strReport = ""
   For Each serno In arrSerno
     strReport = strReport & serno & " : " & arrReport(intRow) & vbCrLf
     objWorkbook.cells(intRow,1).value = serno
