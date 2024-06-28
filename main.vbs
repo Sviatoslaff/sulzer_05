@@ -30,16 +30,11 @@ For Each serno In arrSerno
   WScript.Sleep 500     'Delay for SAP processing
   If session.findById("wnd[0]/usr/ctxtP_EQUNR",False) Is Nothing Then
     Do While session.findById("wnd[0]/usr/chkJOB", False) Is Nothing
-      If session.findById("wnd[1]/usr/txtLV_MATNR1", False) Is Nothing Then    
-        txtStatus = session.ActiveWindow.findById("sbar").Text
-        if txtStatus <> "" Then
-          dicReport.Add serno, txtStatus
-        else
+      If session.findById("wnd[1]/usr/txtLV_MATNR1", False) Is Nothing Then   
           dicReport.Add serno, resNoBOM
           bExit = vbTrue
           session.findById("wnd[1]").sendVKey 0
           Exit Do            
-        end if
       Else
         session.findById("wnd[1]/tbar[0]/btn[8]").press       'V
         'session.findById("wnd[1]/tbar[0]/btn[2]").press       'X        
@@ -86,8 +81,14 @@ For Each serno In arrSerno
       End If  
     End If  
   Else
-    ' Same selection window - doing nothing
-    dicReport.Add serno, resExists
+    ' Same selection window - check for status bar
+    If session.ActiveWindow.findById("sbar", False) Is Nothing Then  
+      dicReport.Add serno, resExists
+    Else
+      txtStatus = session.ActiveWindow.findById("sbar").Text
+      dicReport.Add serno, txtStatus
+    End If
+
   End If
 Next
 
